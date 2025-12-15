@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import authRoute from "./routes/auth.route";
+import route from "./routes/auth.route";
 const app = express();
 
 app.use(cors());
@@ -10,6 +10,6 @@ app.get("/", (_req, res) => {
   res.send("Backend is running 🚀");
 });
 
-app.use("/api/auth", authRoute);
+app.use("/api/todoapp", route);
 
 export default app;
