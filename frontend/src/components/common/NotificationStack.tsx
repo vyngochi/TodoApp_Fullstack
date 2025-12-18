@@ -108,6 +108,7 @@ const NotificationContainer = styled.div`
   gap: 12px;
   max-width: 400px;
   width: 100%;
+  font-family: "Lexend", sans-serif;
 
   @media (max-width: 768px) {
     left: 20px;
@@ -252,7 +253,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     );
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
-    }, 400); // Khớp với thời gian animation slideOut
+    }, 400);
   };
 
   const addNotification = (
@@ -271,7 +272,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     setTimeout(() => removeNotification(id), 5000);
   };
 
-  // Các hàm helper để code gọn hơn
   const showSuccess = (t: string, m: string) =>
     addNotification("success", t, m);
   const showError = (t: string, m: string) => addNotification("error", t, m);
@@ -296,10 +296,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     <NotificationContext.Provider
       value={{ showSuccess, showError, showWarning, showInfo }}
     >
-      {/* Render nội dung trang web */}
       {children}
 
-      {/* Render danh sách thông báo nằm đè lên trên cùng */}
       <NotificationContainer>
         {notifications.map((notif) => (
           <NotificationItem

@@ -1,11 +1,19 @@
-import React from "react";
-import { useNotification } from "../components/common/NotificationStack";
+// import React from "react";
+// import { useNotification } from "../components/common/NotificationStack";
 // import NotificationStack from "../components/common/NotificationStack";
 
+import Header from "../components/common/Header";
+import Sidebar from "../components/common/Sidebar";
+
 export default function () {
-  const { showSuccess } = useNotification();
-  const showNoti = () => {
-    showSuccess("ok", "tuyet voi");
-  };
-  return <button onClick={showNoti}>CLICK</button>;
+  // const { showSuccess } = useNotification();
+  // const showNoti = () => {
+  //   showSuccess("ok", "tuyet voi");
+  // };
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Header />
+      <Sidebar />
+    </div>
+  );
 }

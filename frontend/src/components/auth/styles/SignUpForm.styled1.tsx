@@ -23,7 +23,7 @@ export const TitleWrapper = styled.div`
   margin-bottom: 30px;
 
   h1 {
-    font-size: 28px;
+    font-size: 30px;
     margin-bottom: 0;
   }
 

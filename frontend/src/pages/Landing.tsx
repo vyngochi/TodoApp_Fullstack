@@ -34,7 +34,7 @@ export default function TodoLandingPage() {
         <S.Content>
           <S.Header>
             <S.Logo>
-              <img src="./../../public/logo.png" alt="" />
+              <img src="/public/logo.png" alt="" />
             </S.Logo>
             <S.Nav>
               <a href="#features">Features</a>

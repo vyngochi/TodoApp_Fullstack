@@ -1,37 +1,53 @@
+import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/AuthService.ts";
+import useValidateForm from "../../hooks/useValidateForm.ts";
 import { getErrorMessage } from "../../utils/errorHandler.ts";
+import { validateLogin } from "../../utils/Validation/AuthValidation.ts";
+import BackButtonAuthen from "../common/BackButtonAuthen.tsx";
 import { useNotification } from "../common/NotificationStack.tsx";
 import TextFieldAuthen from "../common/TextFieldAuthen.tsx";
 import * as S from "./styles/LoginForm.styled.tsx";
+import {
+  AUTH_NOTI_TITLE,
+  AUTH_RES_MESS,
+} from "../../utils/Messages/AuthMessage.ts";
+import { setLoginSuccess } from "../../store/AuthStore.ts";
 
 interface LoginFormProps {
   setIsSignUp?: (value: boolean) => void;
-  email: string;
-  password: string;
-  setEmail: (v: string) => void;
-  setPassword: (v: string) => void;
-  error?: string;
 }
 
-export default function LoginForm({
-  setIsSignUp,
-  email,
-  password,
-  setEmail,
-  setPassword,
-  error,
-}: LoginFormProps) {
-  const useLoginMutate = useLogin();
+export default function LoginForm({ setIsSignUp }: LoginFormProps) {
+  const login = useLogin();
+  const navigate = useNavigate();
   const { showSuccess, showError } = useNotification();
 
+  const { errors, handleChange, handleSubmit, values } = useValidateForm(
+    {
+      email: "",
+      password: "",
+    },
+    validateLogin,
+    () => handleLogin()
+  );
+
   const handleLogin = () => {
-    useLoginMutate.mutate(
-      { email: email, password: password },
+    login.mutate(
+      { email: values.email, password: values.password },
       {
-        onSuccess: () => showSuccess("ok", "login thanh cong"),
+        onSuccess: (data) => {
+          localStorage.setItem("accessToken", data.data?.accessToken ?? "");
+          setLoginSuccess({
+            accessToken: data.data?.accessToken || null,
+            refreshToken: data.data?.refreshToken || null,
+            isAuthenticated: true,
+          });
+          showSuccess(AUTH_NOTI_TITLE.LOGIN, AUTH_RES_MESS.LOGIN_SUCCESS);
+          navigate("/mytodo");
+        },
         onError: (error: any) => {
           const message = getErrorMessage(error);
-          showError("Login Failed", message);
+          showError(AUTH_NOTI_TITLE.LOGIN, message);
         },
       }
     );
@@ -39,27 +55,31 @@ export default function LoginForm({
 
   return (
     <S.LoginFormWrapper>
+      <BackButtonAuthen onClick={() => navigate("/")} />
       <S.TitleWrapper>
         <h1>Welcome Back</h1>
         <p>Sign in to access your tasks and boost your productivity</p>
       </S.TitleWrapper>
       <TextFieldAuthen
         label="Email"
+        name="email"
         type="email"
         placeholder="Enter your email"
-        value={email}
-        setValue={setEmail}
-        error={error}
+        value={values.email}
+        onChange={handleChange}
+        error={errors.email}
       />
       <TextFieldAuthen
         label="Password"
+        name="password"
         type="password"
         placeholder="Enter your password"
-        value={password}
-        setValue={setPassword}
+        value={values.password}
+        onChange={handleChange}
+        error={errors.password}
       />
       <S.ButtonWrapper>
-        <S.SubmitButton onClick={handleLogin}>Log In</S.SubmitButton>
+        <S.SubmitButton onClick={(e) => handleSubmit(e)}>Log In</S.SubmitButton>
       </S.ButtonWrapper>
       <S.HrWrapper>
         <hr />
