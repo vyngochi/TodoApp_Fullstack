@@ -1,30 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  type JSX,
-  createContext,
-  useContext,
-} from "react";
-import styled, { keyframes, createGlobalStyle } from "styled-components";
+import React, { useState, createContext, useContext } from "react";
+import styled, { keyframes } from "styled-components";
 import { CheckCircle, AlertCircle, Info, X, AlertTriangle } from "lucide-react";
-
-const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-`;
 
 type NotificationType = "success" | "error" | "warning" | "info";
 

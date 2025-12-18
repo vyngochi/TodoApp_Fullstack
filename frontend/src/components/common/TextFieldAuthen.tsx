@@ -1,6 +1,5 @@
-import { useEffect, type ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 import * as S from "./styles/TextFieldAuthen.styled";
-import { useDebounce } from "../../hooks/useDebounce";
 
 interface TextFieldAuthenProps {
   label?: string;
