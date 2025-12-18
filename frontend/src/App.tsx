@@ -1,7 +1,8 @@
 import "./App.css";
+import TodoLandingPage from "./pages/Landing";
 
 function App() {
-  return <></>;
+  return <TodoLandingPage />;
 }
 
 export default App;
