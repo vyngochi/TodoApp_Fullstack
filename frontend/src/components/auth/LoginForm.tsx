@@ -43,7 +43,7 @@ export default function LoginForm({ setIsSignUp }: LoginFormProps) {
             isAuthenticated: true,
           });
           showSuccess(AUTH_NOTI_TITLE.LOGIN, AUTH_RES_MESS.LOGIN_SUCCESS);
-          navigate("/mytodo");
+          navigate("/mytodo/todos");
         },
         onError: (error: any) => {
           const message = getErrorMessage(error);

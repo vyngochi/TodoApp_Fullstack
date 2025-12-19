@@ -48,6 +48,7 @@ export const login = async (req: Request, res: Response) => {
       return errorResponse(res, 400, "Missing password");
     }
     const result = await loginUser(email, password);
+
     return successResponse(res, 200, "Login successful", result);
   } catch (error) {
     return errorResponse(

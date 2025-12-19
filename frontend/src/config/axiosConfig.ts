@@ -23,13 +23,14 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (!error.response) {
-      return Promise.reject({ message: "Network error" });
+      return Promise.reject(error);
     }
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const refreshToken = authStore.state.refreshToken;
+
         const res = await api.post<ResponseModel<{ refreshToken: string }>>(
           "/todoapp/refresh-token",
           { refreshToken }
@@ -42,13 +43,15 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
         return api(originalRequest);
-      } catch (error) {
+      } catch (err) {
         logout();
         window.location.href = "/auth";
-        return Promise.reject(error);
+        return Promise.reject(err);
       }
     }
-    return Promise.reject(error.response.data);
+
+    return Promise.reject(error);
   }
 );
+
 export default api;
