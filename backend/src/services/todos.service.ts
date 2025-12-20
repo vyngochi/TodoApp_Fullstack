@@ -7,6 +7,7 @@ export const getTodosByUserId = async (userId: number) => {
       Id: true,
       Title: true,
       IsCompleted: true,
+      DueDate: true,
     },
   });
 
@@ -16,18 +17,21 @@ export const getTodosByUserId = async (userId: number) => {
 export const createTodo = async (
   userId: number,
   title: string,
-  isCompleted: boolean
+  isCompleted: boolean,
+  dueDate: Date
 ) => {
   const newTodo = await prisma.todos.create({
     data: {
       UserId: userId,
       Title: title,
       IsCompleted: isCompleted,
+      DueDate: dueDate,
     },
     select: {
       Id: true,
       Title: true,
       IsCompleted: true,
+      DueDate: true,
     },
   });
 

@@ -2,8 +2,12 @@
 // import { useNotification } from "../components/common/NotificationStack";
 // import NotificationStack from "../components/common/NotificationStack";
 
-import Header from "../components/common/Header";
-import Sidebar from "../components/common/Sidebar";
+import AddTaskCalendar from "../components/common/AddTaskCalendar";
+import ChooseDueDatePopup from "../components/modals/ChooseDueDatePopup";
+
+// import { AddTaskCalendar } from "../components/common/AddTaskCalendar";
+// import Header from "../components/common/Header";
+// import Sidebar from "../components/common/Sidebar";
 
 export default function () {
   // const { showSuccess } = useNotification();
@@ -11,9 +15,11 @@ export default function () {
   //   showSuccess("ok", "tuyet voi");
   // };
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Header />
-      <Sidebar />
-    </div>
+    // <div style={{ display: "flex", flexDirection: "column" }}>
+    //   <Header />
+    //   <Sidebar />
+    // </div>
+
+    <ChooseDueDatePopup />
   );
 }

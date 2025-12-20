@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const fadeIn = keyframes`
   from {
@@ -157,7 +157,7 @@ export const Input = styled.input`
   }
 `;
 
-export const AddButton = styled.button`
+export const AddButton = styled.button<{ $disabled: boolean }>`
   background: linear-gradient(135deg, #364fab 0%, #5a7de8 100%);
   color: white;
   border: none;
@@ -172,6 +172,19 @@ export const AddButton = styled.button`
   gap: 8px;
   transition: all 0.3s ease;
   white-space: nowrap;
+
+  ${({ $disabled }) =>
+    $disabled &&
+    css`
+      background: linear-gradient(135deg, #ccc 0%, #ccc 100%);
+      transition: none;
+      pointer-events: none;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    `}
 
   span {
     font-size: 20px;

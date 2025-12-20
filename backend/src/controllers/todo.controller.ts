@@ -6,18 +6,20 @@ import {
   updateTodo,
 } from "../services/todos.service";
 import { errorResponse, successResponse } from "../utils/responseHelper";
+import { AuthRequest } from "../middlewares/auth.middleware";
 
-export const getTodos = async (req: Request, res: Response) => {
+export const getTodos = async (req: AuthRequest, res: Response) => {
   try {
-    const userId = parseInt(req.params.userId, 10);
+    const userId = req.user?.userId;
 
     if (!userId) {
       return errorResponse(res, 400, "Invalid user ID");
     }
+
     const todos = await getTodosByUserId(userId);
 
     if (todos.length === 0) {
-      return errorResponse(res, 404, "No todos found for this user");
+      return errorResponse(res, 200, "No todos found for this user");
     }
 
     return successResponse(res, 200, "Get todos successfully", todos);
@@ -30,15 +32,21 @@ export const getTodos = async (req: Request, res: Response) => {
   }
 };
 
-export const createNewTodo = async (req: Request, res: Response) => {
+export const createNewTodo = async (req: AuthRequest, res: Response) => {
   try {
-    const { userId, title, isCompleted } = req.body;
+    const { Title, IsCompleted, DueDate } = req.body;
 
-    if (!userId || !title || isCompleted === undefined) {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return errorResponse(res, 401, "Unauthorized");
+    }
+
+    if (!Title || IsCompleted === undefined) {
       return errorResponse(res, 400, "Missing required fields");
     }
 
-    const newTodo = await createTodo(userId, title, isCompleted);
+    const newTodo = await createTodo(userId, Title, IsCompleted, DueDate);
 
     return successResponse(res, 201, "Todo created successfully", newTodo);
   } catch (error) {
@@ -52,13 +60,9 @@ export const createNewTodo = async (req: Request, res: Response) => {
 
 export const updateTodoById = async (req: Request, res: Response) => {
   const todoId = parseInt(req.params.todoId, 10);
-  const { title, isCompleted } = req.body;
+  const { Title, IsCompleted } = req.body;
   try {
-    if (!todoId || !title || isCompleted === undefined) {
-      return errorResponse(res, 400, "Missing required fields");
-    }
-
-    const updatedTodo = await updateTodo(todoId, title, isCompleted);
+    const updatedTodo = await updateTodo(todoId, Title, IsCompleted);
 
     return successResponse(res, 200, "Todo updated successfully", updatedTodo);
   } catch (error) {

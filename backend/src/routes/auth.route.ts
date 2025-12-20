@@ -20,9 +20,9 @@ router.post("/refresh-token", refreshToken);
 router.get("/profile", authenticate, getProfile);
 
 //todos
-router.get("/todos/:userId", authenticate, getTodos);
-router.post("/todos/create", authenticate, createNewTodo);
-router.put("/todos/update/:todoId", authenticate, updateTodoById);
-router.delete("/todos/delete/:todoId", authenticate, deleteTodoById);
+router.get("/todos", authenticate, getTodos);
+router.post("/todos", authenticate, createNewTodo);
+router.put("/todos/:todoId", authenticate, updateTodoById);
+router.delete("/todos/:todoId", authenticate, deleteTodoById);
 
 export default router;
