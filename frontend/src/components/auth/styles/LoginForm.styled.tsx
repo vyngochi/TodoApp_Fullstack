@@ -17,7 +17,7 @@ export const TitleWrapper = styled.div`
   margin-bottom: 30px;
 
   h1 {
-    font-size: 30px;
+    font-size: 30px !important;
     margin-bottom: 0;
   }
 
@@ -91,4 +91,18 @@ export const LinkText = styled.span`
   color: #364fab;
   cursor: pointer;
   font-weight: 500;
+`;
+
+export const ForgotLinkWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  p {
+    margin: 0;
+    padding: 0;
+    color: #076e6e;
+    font-style: italic;
+    font-size: 14px;
+    cursor: pointer;
+  }
 `;

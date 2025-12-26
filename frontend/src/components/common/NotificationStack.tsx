@@ -244,7 +244,6 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
       { id, type, title, message, isExiting: false },
     ]);
 
-    // Tự động tắt sau 5s
     setTimeout(() => removeNotification(id), 5000);
   };
 

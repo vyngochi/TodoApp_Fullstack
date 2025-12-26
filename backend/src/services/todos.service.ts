@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import prisma from "../config/prisma";
 
 export const getTodosByUserId = async (userId: number) => {
@@ -63,4 +64,39 @@ export const deleteTodo = async (todoId: number) => {
   await prisma.todos.delete({
     where: { Id: todoId },
   });
+};
+
+export const getTodosDates = async (userId: number, from: Date, to: Date) => {
+  const dates = prisma.todos.findMany({
+    where: { UserId: userId, DueDate: { gte: from, lte: to } },
+    select: { DueDate: true },
+  });
+
+  return dates;
+};
+
+export const getTodosBySpecificDate = async (userId: number, date: string) => {
+  const startOfDate = dayjs(date).startOf("day").toISOString();
+  const endOfDate = dayjs(date).endOf("day").toISOString();
+
+  const todos = await prisma.todos.findMany({
+    where: {
+      UserId: userId,
+      DueDate: {
+        gte: startOfDate,
+        lt: endOfDate,
+      },
+    },
+    select: {
+      Id: true,
+      Title: true,
+      IsCompleted: true,
+      DueDate: true,
+    },
+    orderBy: {
+      DueDate: "asc",
+    },
+  });
+
+  return todos;
 };

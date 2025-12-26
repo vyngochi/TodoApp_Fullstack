@@ -15,9 +15,13 @@ import { setLoginSuccess } from "../../store/AuthStore.ts";
 
 interface LoginFormProps {
   setIsSignUp?: (value: boolean) => void;
+  setIsForgot?: (value: boolean) => void;
 }
 
-export default function LoginForm({ setIsSignUp }: LoginFormProps) {
+export default function LoginForm({
+  setIsSignUp,
+  setIsForgot,
+}: LoginFormProps) {
   const login = useLogin();
   const navigate = useNavigate();
   const { showSuccess, showError } = useNotification();
@@ -78,6 +82,9 @@ export default function LoginForm({ setIsSignUp }: LoginFormProps) {
         onChange={handleChange}
         error={errors.password}
       />
+      <S.ForgotLinkWrapper>
+        <p onClick={() => setIsForgot?.(true)}>Forgot password?</p>
+      </S.ForgotLinkWrapper>
       <S.ButtonWrapper>
         <S.SubmitButton onClick={(e) => handleSubmit(e)}>Log In</S.SubmitButton>
       </S.ButtonWrapper>

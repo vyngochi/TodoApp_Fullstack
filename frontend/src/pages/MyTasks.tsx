@@ -1,34 +1,5 @@
 import { useRef, useState } from "react";
-import {
-  Container,
-  Header,
-  Title,
-  SubTitle,
-  InputSection,
-  InputWrapper,
-  Input,
-  AddButton,
-  TodoList,
-  TodoItem,
-  TodoContent,
-  TodoText,
-  TodoActions,
-  EditButton,
-  DeleteButton,
-  CompleteButton,
-  EmptyState,
-  Stats,
-  StatItem,
-  StatNumber,
-  StatLabel,
-  SaveButton,
-  CancelButton,
-  EditInputWrapper,
-  EditInput,
-  FilterSection,
-  FilterButton,
-  ContentWrapper,
-} from "./styles/MyTasks.styled";
+import * as S from "./styles/MyTasks.styled";
 import {
   useCreateTodo,
   useDeleteTodo,
@@ -42,11 +13,12 @@ import type { TodoModel } from "../model/TodoModel";
 import { useQueryClient } from "@tanstack/react-query";
 import ChooseDueDatePopup from "../components/modals/ChooseDueDatePopup";
 import { fireConfetti } from "../utils/Effects/canvasConfetti";
+import dayjs from "dayjs";
 
 type FilterType = "all" | "active" | "completed";
 
 export default function MyTasks() {
-  const { showSuccess, showError } = useNotification();
+  const { showSuccess, showError, showWarning } = useNotification();
   const [inputValue, setInputValue] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editValue, setEditValue] = useState("");
@@ -56,6 +28,7 @@ export default function MyTasks() {
   const addButtonRef = useRef<HTMLButtonElement>(null);
 
   const { data: todosApi, refetch } = useGetTodos();
+
   const queryClient = useQueryClient();
 
   const createTodo = useCreateTodo();
@@ -68,14 +41,20 @@ export default function MyTasks() {
         {
           Title: inputValue,
           IsCompleted: false,
-          DueDate: dueDate?.toISOString() || null,
+          DueDate: dayjs(dueDate).toISOString() || null,
         },
         {
           onSuccess: async (data) => {
+            if (data.statusCode === 200) {
+              return showWarning(TODO_TITLE.ADD_TODO, data.message || "");
+            }
+
+            await refetch();
+
             if (addButtonRef.current) {
               fireConfetti(addButtonRef.current);
             }
-            await refetch();
+
             showSuccess(
               TODO_TITLE.ADD_TODO,
               data.message || TODO_MESSAGE.ADD_SUCCESS
@@ -84,6 +63,7 @@ export default function MyTasks() {
           },
           onError: (error) => {
             const err = getErrorMessage(error);
+
             showError(TODO_TITLE.ADD_TODO, err);
           },
         }
@@ -159,31 +139,31 @@ export default function MyTasks() {
 
   return (
     <>
-      <Container>
-        <ContentWrapper>
-          <Header>
-            <Title>My Tasks</Title>
-            <SubTitle>Organize your day, one task at a time</SubTitle>
-          </Header>
+      <S.Container>
+        <S.ContentWrapper>
+          <S.Header>
+            <S.Title>My Tasks</S.Title>
+            <S.SubTitle>Organize your day, one task at a time</S.SubTitle>
+          </S.Header>
 
-          <Stats>
-            <StatItem>
-              <StatNumber>{todosApi?.data?.length ?? 0}</StatNumber>
-              <StatLabel>Total</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>{activeCount}</StatNumber>
-              <StatLabel>Active</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>{completedCount}</StatNumber>
-              <StatLabel>Completed</StatLabel>
-            </StatItem>
-          </Stats>
+          <S.Stats>
+            <S.StatItem>
+              <S.StatNumber>{todosApi?.data?.length ?? 0}</S.StatNumber>
+              <S.StatLabel>Total</S.StatLabel>
+            </S.StatItem>
+            <S.StatItem>
+              <S.StatNumber>{activeCount}</S.StatNumber>
+              <S.StatLabel>Active</S.StatLabel>
+            </S.StatItem>
+            <S.StatItem>
+              <S.StatNumber>{completedCount}</S.StatNumber>
+              <S.StatLabel>Completed</S.StatLabel>
+            </S.StatItem>
+          </S.Stats>
 
-          <InputSection>
-            <InputWrapper>
-              <Input
+          <S.InputSection>
+            <S.InputWrapper>
+              <S.Input
                 type="text"
                 placeholder="Add a new task..."
                 value={inputValue}
@@ -192,41 +172,41 @@ export default function MyTasks() {
                   e.key === "Enter" && setIsOpenDateChosen(true)
                 }
               />
-              <AddButton
+              <S.AddButton
                 disabled={!inputValue}
                 $disabled={!inputValue}
                 onClick={() => setIsOpenDateChosen(true)}
                 ref={addButtonRef}
               >
                 <span>+</span> Add Task
-              </AddButton>
-            </InputWrapper>
-          </InputSection>
+              </S.AddButton>
+            </S.InputWrapper>
+          </S.InputSection>
 
-          <FilterSection>
-            <FilterButton
+          <S.FilterSection>
+            <S.FilterButton
               active={filter === "all"}
               onClick={() => setFilter("all")}
             >
               All
-            </FilterButton>
-            <FilterButton
+            </S.FilterButton>
+            <S.FilterButton
               active={filter === "active"}
               onClick={() => setFilter("active")}
             >
               Active
-            </FilterButton>
-            <FilterButton
+            </S.FilterButton>
+            <S.FilterButton
               active={filter === "completed"}
               onClick={() => setFilter("completed")}
             >
               Completed
-            </FilterButton>
-          </FilterSection>
+            </S.FilterButton>
+          </S.FilterSection>
 
-          <TodoList>
+          <S.TodoList>
             {!filteredTodos || filteredTodos.length === 0 ? (
-              <EmptyState>
+              <S.EmptyState>
                 <p>
                   {filter === "all"
                     ? "No tasks yet. Create one to get started!"
@@ -234,13 +214,13 @@ export default function MyTasks() {
                     ? "All tasks completed! 🎉"
                     : "No completed tasks yet."}
                 </p>
-              </EmptyState>
+              </S.EmptyState>
             ) : (
               filteredTodos?.reverse().map((todo) => (
-                <TodoItem key={todo.Id} completed={todo.IsCompleted}>
+                <S.TodoItem key={todo.Id} completed={todo.IsCompleted}>
                   {editingId === todo.Id ? (
-                    <EditInputWrapper>
-                      <EditInput
+                    <S.EditInputWrapper>
+                      <S.EditInput
                         type="text"
                         value={editValue}
                         onChange={(e: any) => setEditValue(e.target.value)}
@@ -249,17 +229,19 @@ export default function MyTasks() {
                         }
                         autoFocus
                       />
-                      <SaveButton onClick={() => handleSaveEdit(todo.Id ?? 0)}>
+                      <S.SaveButton
+                        onClick={() => handleSaveEdit(todo.Id ?? 0)}
+                      >
                         Save
-                      </SaveButton>
-                      <CancelButton onClick={handleCancelEdit}>
+                      </S.SaveButton>
+                      <S.CancelButton onClick={handleCancelEdit}>
                         Cancel
-                      </CancelButton>
-                    </EditInputWrapper>
+                      </S.CancelButton>
+                    </S.EditInputWrapper>
                   ) : (
                     <>
-                      <TodoContent>
-                        <CompleteButton
+                      <S.TodoContent>
+                        <S.CompleteButton
                           completed={todo.IsCompleted}
                           onClick={() => handleCompleteTodo(todo)}
                           title={
@@ -269,35 +251,35 @@ export default function MyTasks() {
                           }
                         >
                           ✓
-                        </CompleteButton>
-                        <TodoText completed={todo.IsCompleted}>
+                        </S.CompleteButton>
+                        <S.TodoText completed={todo.IsCompleted}>
                           {todo.Title}
-                        </TodoText>
-                      </TodoContent>
-                      <TodoActions>
-                        <EditButton
+                        </S.TodoText>
+                      </S.TodoContent>
+                      <S.TodoActions>
+                        <S.EditButton
                           onClick={() =>
                             handleStartEdit(todo.Id ?? 0, todo.Title)
                           }
                         >
                           Edit
-                        </EditButton>
-                        <DeleteButton
+                        </S.EditButton>
+                        <S.DeleteButton
                           onClick={() =>
                             handleDeleteTodo(todo.Id ?? 0, todo.Title)
                           }
                         >
                           Delete
-                        </DeleteButton>
-                      </TodoActions>
+                        </S.DeleteButton>
+                      </S.TodoActions>
                     </>
                   )}
-                </TodoItem>
+                </S.TodoItem>
               ))
             )}
-          </TodoList>
-        </ContentWrapper>
-      </Container>
+          </S.TodoList>
+        </S.ContentWrapper>
+      </S.Container>
       {isOpenDateChosen && (
         <ChooseDueDatePopup
           isOpenModal={isOpenDateChosen}

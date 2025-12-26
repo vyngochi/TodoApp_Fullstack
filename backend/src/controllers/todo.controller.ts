@@ -2,11 +2,14 @@ import { Request, Response } from "express";
 import {
   createTodo,
   deleteTodo,
+  getTodosBySpecificDate,
   getTodosByUserId,
+  getTodosDates,
   updateTodo,
 } from "../services/todos.service";
 import { errorResponse, successResponse } from "../utils/responseHelper";
 import { AuthRequest } from "../middlewares/auth.middleware";
+import dayjs from "dayjs";
 
 export const getTodos = async (req: AuthRequest, res: Response) => {
   try {
@@ -46,6 +49,10 @@ export const createNewTodo = async (req: AuthRequest, res: Response) => {
       return errorResponse(res, 400, "Missing required fields");
     }
 
+    if (new Date(DueDate) < new Date()) {
+      return successResponse(res, 200, "Due time cannot be in the past");
+    }
+
     const newTodo = await createTodo(userId, Title, IsCompleted, DueDate);
 
     return successResponse(res, 201, "Todo created successfully", newTodo);
@@ -83,6 +90,74 @@ export const deleteTodoById = async (req: Request, res: Response) => {
     await deleteTodo(todoId);
     return successResponse(res, 200, "Todo deleted successfully");
   } catch (error) {
+    return errorResponse(
+      res,
+      500,
+      (error as Error).message || "Internal server error"
+    );
+  }
+};
+
+export const getTodoDatesByRange = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return errorResponse(res, 401, "Unauthorized");
+    }
+    const { from, to } = req.query;
+
+    if (!from || !to) {
+      return errorResponse(res, 400, "From date and To date are required");
+    }
+
+    const fromDate = new Date(from as string);
+    const toDate = new Date(to as string);
+
+    const dates = await getTodosDates(userId, fromDate, toDate);
+
+    const uniqueDates = Array.from(
+      new Set(
+        dates
+          .filter((t) => t.DueDate)
+          .map((t) => dayjs(t.DueDate).format("YYYY-MM-DD"))
+      )
+    );
+
+    return successResponse(res, 201, "Get dates successfully", uniqueDates);
+  } catch (error) {
+    return errorResponse(
+      res,
+      500,
+      (error as Error).message || "Internal server error"
+    );
+  }
+};
+
+export const getTodosByDate = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return errorResponse(res, 401, "Unauthorized");
+    }
+
+    const { date } = req.query;
+
+    if (!date || typeof date !== "string") {
+      return errorResponse(res, 400, "Date is required");
+    }
+
+    // validate format YYYY-MM-DD
+    if (!dayjs(date, "YYYY-MM-DD", true).isValid()) {
+      return errorResponse(res, 400, "Invalid date format (YYYY-MM-DD)");
+    }
+
+    const todos = await getTodosBySpecificDate(userId, date);
+
+    return successResponse(res, 200, "Get todos by date successfully", todos);
+  } catch (error) {
+    console.error(error);
     return errorResponse(
       res,
       500,

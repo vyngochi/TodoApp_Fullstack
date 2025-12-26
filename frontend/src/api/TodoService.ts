@@ -62,3 +62,32 @@ export const useUpdateTodo = () => {
     },
   });
 };
+
+//READ
+export const useGetTodoDates = (from: string, to: string) => {
+  return useQuery({
+    queryKey: ["dates", from, to],
+    queryFn: async () => {
+      const response = await api.get<ResponseModel<string[]>>(
+        "/todoapp/todos/dates",
+        { params: { from, to } }
+      );
+      return response.data.data as string[];
+    },
+  });
+};
+
+//READ
+export const useGetTodoByDate = (date: string | null) => {
+  return useQuery({
+    queryKey: ["TodosByDate", date],
+    queryFn: async () => {
+      const response = await api.get<ResponseModel<TodoModel[]>>(
+        `todoapp/todos/by-date`,
+        { params: { date } }
+      );
+      return response.data;
+    },
+    enabled: !!date,
+  });
+};

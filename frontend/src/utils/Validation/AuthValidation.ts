@@ -2,17 +2,26 @@ import { PASSWORD_REGEX } from "./../regex";
 import { ValidateMessage } from "../Messages/AuthMessage";
 import { EMAIL_REGEX } from "../regex";
 
-export interface LoginValues {
+interface LoginValues {
   email?: string;
   password?: string;
 }
 
-export interface SignUpValues {
+interface SignUpValues {
   firstName?: string;
   lastName?: string;
   email?: string;
   password?: string;
   confirmPass?: string;
+}
+
+interface EmailChangePassValue {
+  email?: string;
+}
+
+interface PasswordChangeValue {
+  password?: string;
+  confirmPassword?: string;
 }
 
 export const validateLogin = (values: LoginValues) => {
@@ -60,6 +69,33 @@ export const validateSignUp = (values: SignUpValues) => {
 
   if (values.password !== values.confirmPass) {
     errors.confirmPass = ValidateMessage.Mismatch_Password;
+  }
+
+  return errors;
+};
+
+export const validateEmailChangePassword = (value: EmailChangePassValue) => {
+  const error: EmailChangePassValue = {};
+
+  if (!value.email) {
+    error.email = ValidateMessage.Email_ChangePass;
+  }
+  return error;
+};
+
+export const validatePasswordChange = (values: PasswordChangeValue) => {
+  const errors: PasswordChangeValue = {};
+
+  if (!values.password) {
+    errors.password = ValidateMessage.Empty_Password;
+  }
+
+  if (!values.confirmPassword) {
+    errors.confirmPassword = ValidateMessage.Empty_ConfirmPss;
+  }
+
+  if (values.password !== values.confirmPassword) {
+    errors.confirmPassword = ValidateMessage.Mismatch_Password;
   }
 
   return errors;

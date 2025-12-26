@@ -23,7 +23,7 @@ export default function TextFieldAuthen({
   return (
     <S.TextFieldWrapper>
       <S.Label>{label}</S.Label>
-      <S.TextField
+      <S.TextFieldAuth
         type={type}
         name={name}
         placeholder={placeholder}

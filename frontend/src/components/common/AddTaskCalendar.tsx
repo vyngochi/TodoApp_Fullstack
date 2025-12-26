@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { DayPicker } from "react-day-picker";
 import { format, setHours, setMinutes } from "date-fns";
@@ -262,13 +262,35 @@ export default function AddTaskCalendar({
     setSelected(dateWithTime);
   };
 
-  useEffect(() => {
-    console.log("time " + selected);
-  }, [selected]);
+  const isToday = (date?: Date) => {
+    if (!date) return false;
+
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  const getMinTime = () => {
+    if (!isToday(selected)) return undefined;
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+
+    return `${hh}:${mm}`;
+  };
 
   return (
     <CalendarWrapper>
-      <DayPicker mode="single" selected={selected} onSelect={handleDaySelect} />
+      <DayPicker
+        mode="single"
+        selected={selected}
+        onSelect={handleDaySelect}
+        disabled={{ before: new Date() }}
+      />
 
       <Divider />
 
@@ -282,6 +304,7 @@ export default function AddTaskCalendar({
           type="time"
           value={timeValue}
           onChange={handleTimeChange}
+          min={getMinTime()}
         />
       </TimePickerSection>
 

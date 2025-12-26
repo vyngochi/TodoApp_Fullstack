@@ -23,3 +23,14 @@ export type SignUpResponseModel = {
   FirstName: string;
   LastName: string;
 };
+
+//change pass
+export type OTPPayload = {
+  email: string;
+  otp: string;
+};
+
+export type PassChangingPayload = {
+  password: string;
+  email: string;
+};

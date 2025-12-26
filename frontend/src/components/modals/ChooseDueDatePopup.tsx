@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import AddTaskCalendar from "../common/AddTaskCalendar";
 
 interface ChooseDueDatePopupProps {
@@ -16,12 +15,6 @@ export default function ChooseDueDatePopup({
   setSelected,
   onAccept,
 }: ChooseDueDatePopupProps) {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsOpenModal(true);
-  };
-
   const handleOk = () => {
     setIsOpenModal(false);
   };

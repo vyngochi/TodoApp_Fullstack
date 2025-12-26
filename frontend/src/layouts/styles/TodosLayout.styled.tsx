@@ -8,7 +8,7 @@ export const LayoutWrapper = styled.div`
 
 export const ContentWrapper = styled.div`
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 200px 1fr;
   flex: 1;
   gap: 0;
 
@@ -17,7 +17,4 @@ export const ContentWrapper = styled.div`
   }
 `;
 
-export const MainContent = styled.div`
-  /* background: linear-gradient(135deg, #f5f7fb 0%, #e8ecf4 100%); */
-  /* overflow-y: auto; */
-`;
+export const MainContent = styled.div``;

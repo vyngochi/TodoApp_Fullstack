@@ -31,12 +31,12 @@ api.interceptors.response.use(
       try {
         const refreshToken = authStore.state.refreshToken;
 
-        const res = await api.post<ResponseModel<{ refreshToken: string }>>(
+        const res = await api.post<ResponseModel<{ accessToken: string }>>(
           "/todoapp/refresh-token",
           { refreshToken }
         );
 
-        const newToken = res.data.data?.refreshToken;
+        const newToken = res.data.data?.accessToken;
 
         localStorage.setItem("accessToken", newToken || "");
 

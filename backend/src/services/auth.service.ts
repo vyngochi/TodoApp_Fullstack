@@ -3,7 +3,7 @@ import prisma from "../config/prisma";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secretkey";
-const JWT_EXPIRES_IN = "1h";
+const JWT_EXPIRES_IN = "2h";
 const REFRESH_TOKEN_EXPIRES_IN = "7d";
 
 export const registerUser = async (
