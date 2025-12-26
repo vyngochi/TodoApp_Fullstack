@@ -10,7 +10,7 @@ TodoApp Fullstack is a comprehensive full-stack application designed to manage t
 - **Task Management**: Create, update, and manage tasks with due dates and completion status.
 - **Email Notifications**: OTP-based email verification using Nodemailer.
 - **Responsive Design**: A user-friendly interface optimized for various devices.
-- **State Management**: Efficient state handling with React Query and Zustand.
+- **State Management**: Efficient state handling with React Query (Tanstack Query) and Tanstack Store.
 - **Calendar Integration**: Visualize tasks with a calendar view.
 
 ## Technologies Used
