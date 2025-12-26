@@ -21,7 +21,7 @@ TodoApp Fullstack is a comprehensive full-stack application designed to manage t
 - **Express.js**: Web framework for building RESTful APIs.
 - **Prisma**: ORM for database management with SQL Server.
 - **TypeScript**: Strongly typed JavaScript for better code quality.
-- **Nodemailer**: Email handling for OTP and notifications.
+- **Nodemailer**: Email handling for OTP.
 - **Day.js**: Lightweight date manipulation library.
 
 ### Frontend
@@ -31,12 +31,18 @@ TodoApp Fullstack is a comprehensive full-stack application designed to manage t
 - **Vite**: Fast development server and build tool.
 - **Chakra UI**: Modern and accessible component library.
 - **Styled-Components**: CSS-in-JS for styling.
-- **React Query**: Data fetching and state management.
+- **React Query (Tanstack Query)**: Data fetching and state management.
 - **Ant Design**: UI components for enhanced user experience.
+- **UIVerse**: Largest Library of Open-Source UI
 
 ### Database
 
 - **SQL Server**: Relational database for structured data storage.
+
+### Other tools
+- **GEMINI**: Used for content generation, idea brainstorming, and feature suggestions during development.
+- **ChatGPT**: Assisted in problem-solving, debugging, backend logic, and technical documentation.
+- **Claude**: Contributed approximately 50% to frontend UI development, including layout structuring, component styling, and UI/UX improvements.
 
 ## Installation
 
@@ -82,19 +88,35 @@ TodoApp Fullstack is a comprehensive full-stack application designed to manage t
 ## Project Structure
 
 ### Backend
-
-- **`src/controllers`**: Handles API logic for authentication, tasks, and email.
-- **`src/services`**: Business logic for user and task management.
-- **`src/routes`**: API endpoints.
-- **`prisma/schema.prisma`**: Database schema definition.
+📦src
+ ┣ 📂config
+ ┣ 📂controllers
+ ┣ 📂middlewares
+ ┣ 📂routes
+ ┣ 📂services
+ ┣ 📂types
+ ┣ 📂utils
 
 ### Frontend
-
-- **`src/components`**: Reusable UI components.
-- **`src/pages`**: Page-level components for routing.
-- **`src/store`**: State management with Zustand.
-- **`src/api`**: API service wrappers using Axios.
-
+📦src
+ ┣ 📂api
+ ┣ 📂components
+ ┃ ┣ 📂auth
+ ┃ ┣ 📂common
+ ┃ ┣ 📂modals
+ ┃ ┗ 📂ui
+ ┣ 📂config
+ ┣ 📂hooks
+ ┣ 📂layouts
+ ┣ 📂model
+ ┣ 📂pages
+ ┣ 📂router
+ ┣ 📂store
+ ┣ 📂utils
+ ┃ ┣ 📂Effects
+ ┃ ┣ 📂Messages
+ ┃ ┣ 📂Validation
+ 
 ## Scripts
 
 ### Backend
