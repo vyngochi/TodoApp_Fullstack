@@ -88,34 +88,12 @@ TodoApp Fullstack is a comprehensive full-stack application designed to manage t
 ## Project Structure
 
 ### Backend
-📦src
- ┣ 📂config
- ┣ 📂controllers
- ┣ 📂middlewares
- ┣ 📂routes
- ┣ 📂services
- ┣ 📂types
- ┣ 📂utils
+<img width="299" height="345" alt="image" src="https://github.com/user-attachments/assets/93bf5fda-ba3f-43f8-8971-b618a1f49cc5" />
+
 
 ### Frontend
-📦src
- ┣ 📂api
- ┣ 📂components
- ┃ ┣ 📂auth
- ┃ ┣ 📂common
- ┃ ┣ 📂modals
- ┃ ┗ 📂ui
- ┣ 📂config
- ┣ 📂hooks
- ┣ 📂layouts
- ┣ 📂model
- ┣ 📂pages
- ┣ 📂router
- ┣ 📂store
- ┣ 📂utils
- ┃ ┣ 📂Effects
- ┃ ┣ 📂Messages
- ┃ ┣ 📂Validation
+<img width="349" height="724" alt="image" src="https://github.com/user-attachments/assets/b096f87d-cf9a-472b-87e7-8cf603213066" />
+
  
 ## Scripts
 
