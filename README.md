@@ -65,6 +65,8 @@ TodoApp Fullstack is a comprehensive full-stack application designed to manage t
 3. Configure environment variables:
    - Create a `.env` file based on `.env.example`.
    - Add database connection details and JWT secrets.
+<img width="1489" height="788" alt="image" src="https://github.com/user-attachments/assets/a6f2363b-7551-4b49-972f-48fbb25a3942" />
+
 4. Run the development server:
    ```bash
    npm run dev
